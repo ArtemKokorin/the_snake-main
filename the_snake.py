@@ -80,8 +80,6 @@ class GameObject:
     def draw_cell(self, position):
         """Нарисовать 1 ячейку"""
         self.position = position
-        pygame.draw.rect(screen, self.body_color,
-                         self.position)
         rect = pygame.Rect(self.position, (GRID_SIZE, GRID_SIZE))
         return rect
 
@@ -97,17 +95,16 @@ class Apple(GameObject):
         """Задать рандомное значение позиции яблока."""
         self.position = (randint(0, GRID_WIDTH) * GRID_SIZE,
                          randint(0, GRID_HEIGHT) * GRID_SIZE)
-        while snake_positions is not None and len(snake_positions) >= 2:
-            print('Game Over, you are won')
-            raise SystemExit
         while snake_positions is not None and self.position in snake_positions:
             self.randomize_position(snake_positions)
         return self.position
 
     def draw(self):
         """Нарисовать яблоко."""
-        self.draw_cell(self.position)
-        self.draw_cell(self.position)
+        pygame.draw.rect(screen, self.body_color,
+                         self.draw_cell(self.position))
+        pygame.draw.rect(screen, BORDER_COLOR,
+                         self.draw_cell(self.position), 1)
 
 
 class Snake(GameObject):
