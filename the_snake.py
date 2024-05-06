@@ -9,7 +9,7 @@ GRID_WIDTH = SCREEN_WIDTH // GRID_SIZE
 GRID_HEIGHT = SCREEN_HEIGHT // GRID_SIZE
 
 # Направления движения:
-
+UP = (0, -1)
 DOWN = (0, 1)
 LEFT = (-1, 0)
 RIGHT = (1, 0)
@@ -81,6 +81,7 @@ class GameObject:
         """Нарисовать 1 ячейку"""
         self.position = position
         rect = pygame.Rect(self.position, (GRID_SIZE, GRID_SIZE))
+        pygame.draw.rect(screen, self.body_color, rect)
         return rect
 
 
@@ -101,10 +102,7 @@ class Apple(GameObject):
 
     def draw(self):
         """Нарисовать яблоко."""
-        pygame.draw.rect(screen, self.body_color,
-                         self.draw_cell(self.position))
-        pygame.draw.rect(screen, BORDER_COLOR,
-                         self.draw_cell(self.position), 1)
+        self.draw_cell(self.position)
 
 
 class Snake(GameObject):
@@ -125,10 +123,7 @@ class Snake(GameObject):
 
     def draw(self):
         """Отрисовка змейки."""
-        pygame.draw.rect(screen, self.body_color,
-                         self.draw_cell(self.get_head_position()))
-        pygame.draw.rect(screen, BORDER_COLOR,
-                         self.draw_cell(self.get_head_position()), 1)
+        self.draw_cell(self.get_head_position())
         if self.last:
             last_rect = pygame.Rect(self.last, (GRID_SIZE, GRID_SIZE))
             pygame.draw.rect(screen, BOARD_BACKGROUND_COLOR, last_rect)
